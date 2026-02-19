@@ -1,6 +1,12 @@
 <mat-toolbar>
   <button matButton routerLink="/">E-Dziennik</button>
   <span class="spacer"></span>
-  <button matButton routerLink="/login">Zaloguj</button>
-  <button matButton>Zarejestruj</button>
+  @if (!authorization.currentUser()) {
+    <button matButton routerLink="/login">Zaloguj</button>
+    <button matButton>Zarejestruj</button>
+  } @else {
+    <span>{{authorization.currentUser()?.email}}</span>
+    <button matButton (click)="logout()">Wyloguj</button>
+  }
+
 </mat-toolbar>
