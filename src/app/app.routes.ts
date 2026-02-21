@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import {Home} from './home/home';
-import {Login} from './login/login';
-import {Dashboard} from './dashboard/dashboard';
-import {authGuard} from './auth.guard';
+import {Home} from './pages/home/home';
+import {Login} from './pages/login/login';
+import {Dashboard} from './pages/dashboard/dashboard';
+import {authGuard} from './core/auth/guards/auth.guard';
 
 export const routes: Routes = [
   {path: '', component: Home},

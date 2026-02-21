@@ -2,7 +2,7 @@ import {Component, inject} from '@angular/core';
 import {MatToolbar} from '@angular/material/toolbar';
 import {MatButton} from '@angular/material/button';
 import {RouterLink} from '@angular/router';
-import {Authorization} from '../authorization';
+import {AuthorizationService} from '../../auth/services/authorization.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -15,7 +15,7 @@ import {Authorization} from '../authorization';
   styleUrl: './toolbar.scss',
 })
 export class Toolbar {
-  protected authorization = inject(Authorization);
+  protected authorization = inject(AuthorizationService);
 
   async logout(): Promise<void> {
     await this.authorization.logout();

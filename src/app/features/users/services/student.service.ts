@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {collection, collectionData, Firestore, query, where} from '@angular/fire/firestore';
-import {UserProfile} from './user.model';
+import {UserProfile} from '../models/user.model';
 import {Observable} from 'rxjs';
 
 @Injectable({

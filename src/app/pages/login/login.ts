@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {MatButton} from '@angular/material/button';
-import {Authorization} from '../authorization';
+import {AuthorizationService} from '../../core/auth/services/authorization.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +11,7 @@ import {Authorization} from '../authorization';
   styleUrl: './login.scss',
 })
 export class Login {
-  private authorization = inject(Authorization);
+  private authorization = inject(AuthorizationService);
 
   async loginWithGoogle(): Promise<void> {
     await this.authorization.loginGoogle();

@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {addDoc, collection, collectionData, Firestore, query, where, DocumentReference} from '@angular/fire/firestore';
-import {Grade, GradeDTO} from './grade.model';
+import {Grade, GradeDTO} from '../models/grade.model';
 import {from, map, Observable} from 'rxjs';
 
 @Injectable({

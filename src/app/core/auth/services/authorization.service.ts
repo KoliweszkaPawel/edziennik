@@ -3,13 +3,13 @@ import {Auth, authState, GoogleAuthProvider, signInWithPopup, signOut} from '@an
 import {toSignal} from '@angular/core/rxjs-interop';
 import {Router} from '@angular/router';
 import {doc, docData, Firestore, getDoc, setDoc} from '@angular/fire/firestore';
-import {UserProfile} from './user.model';
+import {UserProfile} from '../../../features/users/models/user.model';
 import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Authorization {
+export class AuthorizationService {
   private router = inject(Router);
   private auth = inject(Auth);
   private firestore = inject(Firestore);

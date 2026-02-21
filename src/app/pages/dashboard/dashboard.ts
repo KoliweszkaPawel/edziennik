@@ -1,13 +1,13 @@
 import {Component, inject} from '@angular/core';
-import {Authorization} from '../authorization';
-import {GradeService} from '../grade.service';
-import {Grade} from '../grade.model';
+import {AuthorizationService} from '../../core/auth/services/authorization.service';
+import {GradeService} from '../../features/grades/services/grade.service';
+import {Grade} from '../../features/grades/models/grade.model';
 import {MatButton} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {DatePipe} from '@angular/common';
 import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators} from '@angular/forms';
-import {StudentService} from '../student.service';
+import {StudentService} from '../../features/users/services/student.service';
 import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {MatOption, MatSelect} from '@angular/material/select';
 
@@ -28,7 +28,7 @@ import {MatOption, MatSelect} from '@angular/material/select';
   styleUrl: './dashboard.scss',
 })
 export class Dashboard {
-  private authorization = inject(Authorization);
+  private authorization = inject(AuthorizationService);
   private gradeService = inject(GradeService);
   private studentService = inject(StudentService);
   private uid = this.authorization.currentUser()!.uid;
