@@ -1,33 +1,68 @@
-<p>dashboard works!</p>
-<button matButton (click)="addTestGrade()">Dodaj testową ocenę</button>
+@if (userProfile()?.role === 'teacher') {
+  <form [formGroup]="newGradeForm" (ngSubmit)="onSubmit()">
+    <h3>Nowa ocena</h3>
+    <mat-form-field>
+      <mat-label>Uczeń</mat-label>
+      <mat-select formControlName="studentId">
+        @for (student of students(); track student.uid) {
+          <mat-option [value]="student.uid">{{student.email}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
 
-<table mat-table [dataSource]="grades()">
+    <mat-form-field>
+      <mat-label>Przedmiot</mat-label>
+      <input matInput formControlName="subject">
+    </mat-form-field>
 
-  <ng-container matColumnDef="subject">
-    <th mat-header-cell *matHeaderCellDef> Przedmiot </th>
-    <td mat-cell *matCellDef="let grade"> {{grade.subject}} </td>
-  </ng-container>
+    <mat-form-field>
+      <mat-label>Ocena</mat-label>
+      <input matInput type="number" formControlName="value">
+    </mat-form-field>
 
-  <ng-container matColumnDef="value">
-    <th mat-header-cell *matHeaderCellDef> Ocena </th>
-    <td mat-cell *matCellDef="let grade"> {{grade.value}} </td>
-  </ng-container>
+    <mat-form-field>
+      <mat-label>Waga</mat-label>
+      <input matInput type="number" formControlName="weight">
+    </mat-form-field>
 
-  <ng-container matColumnDef="weight">
-    <th mat-header-cell *matHeaderCellDef> Waga </th>
-    <td mat-cell *matCellDef="let grade"> {{grade.weight}} </td>
-  </ng-container>
+    <mat-form-field>
+      <mat-label>Opis</mat-label>
+      <input matInput formControlName="description">
+    </mat-form-field>
 
-  <ng-container matColumnDef="createdAt">
-    <th mat-header-cell *matHeaderCellDef> Data wpisania </th>
-    <td mat-cell *matCellDef="let grade"> {{grade.createdAt | date: 'short'}} </td>
-  </ng-container>
+    <button matButton type="submit" [disabled]="newGradeForm.invalid">Wystaw ocenę</button>
+  </form>
+}
 
-  <ng-container matColumnDef="teacher">
-    <th mat-header-cell *matHeaderCellDef> Nauczyciel </th>
-    <td mat-cell *matCellDef="let grade"> {{grade.teacher}} </td>
-  </ng-container>
+@if (userProfile()?.role === 'student') {
+  <table mat-table [dataSource]="grades()">
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    <ng-container matColumnDef="subject">
+      <th mat-header-cell *matHeaderCellDef> Przedmiot </th>
+      <td mat-cell *matCellDef="let grade"> {{grade.subject}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="value">
+      <th mat-header-cell *matHeaderCellDef> Ocena </th>
+      <td mat-cell *matCellDef="let grade"> {{grade.value}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef> Waga </th>
+      <td mat-cell *matCellDef="let grade"> {{grade.weight}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef> Data wpisania </th>
+      <td mat-cell *matCellDef="let grade"> {{grade.createdAt | date: 'short'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="teacher">
+      <th mat-header-cell *matHeaderCellDef> Nauczyciel </th>
+      <td mat-cell *matCellDef="let grade"> {{grade.teacher}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+}
