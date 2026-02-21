@@ -6,7 +6,7 @@ import {MatButton} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {DatePipe} from '@angular/common';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators} from '@angular/forms';
 import {StudentService} from '../student.service';
 import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {MatOption, MatSelect} from '@angular/material/select';
@@ -38,27 +38,33 @@ export class Dashboard {
   displayedColumns = ['subject', 'value', 'weight', 'createdAt', 'teacher'];
 
   newGradeForm = new FormGroup({
-    studentId: new FormControl('', Validators.required),
-    subject: new FormControl('', Validators.required),
-    value: new FormControl<number | null>(null, Validators.required),
-    weight: new FormControl<number | null>(null, Validators.required),
-    description: new FormControl('', Validators.required),
+    studentId: new FormControl('', {nonNullable: true, validators: Validators.required}),
+    subject: new FormControl('', {nonNullable: true, validators: Validators.required}),
+    value: new FormControl<number>(0, {nonNullable: true, validators: Validators.required}),
+    weight: new FormControl<number>(0, {nonNullable: true, validators: Validators.required}),
+    description: new FormControl('', {nonNullable: true, validators: Validators.required}),
   });
 
-  async onSubmit() {
+  onSubmit(formDir: FormGroupDirective) {
     if(this.newGradeForm.valid) {
-      const formValue = this.newGradeForm.value;
+      const formValue = this.newGradeForm.getRawValue();
       const newGrade: Grade = {
-        studentId: formValue.studentId!,
-        subject: formValue.subject!,
-        value: formValue.value!,
-        weight: formValue.weight!,
-        description: formValue.description!,
+        studentId: formValue.studentId,
+        subject: formValue.subject,
+        value: formValue.value,
+        weight: formValue.weight,
+        description: formValue.description,
         createdAt: new Date,
         teacher: this.userProfile()?.email!
       }
-      await this.gradeService.addGrade(newGrade);
-      this.newGradeForm.reset();
+      this.gradeService.addGrade(newGrade).subscribe({
+        next: () => {
+          formDir.resetForm();
+        },
+        error: (err) => {
+          console.error('Błąd podczas zapisywania oceny', err);
+        }
+      });
     }
   }
 }

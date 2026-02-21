@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
-import {addDoc, collection, collectionData, Firestore, query, where} from '@angular/fire/firestore';
+import {addDoc, collection, collectionData, Firestore, query, where, DocumentReference} from '@angular/fire/firestore';
 import {Grade, GradeDTO} from './grade.model';
-import {map, Observable} from 'rxjs';
+import {from, map, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,9 +9,9 @@ import {map, Observable} from 'rxjs';
 export class GradeService {
   private firestore = inject(Firestore);
 
-  async addGrade(gradeData: Grade): Promise<void> {
+  addGrade(gradeData: Grade): Observable<DocumentReference> {
     const gradesCollection = collection(this.firestore, 'grades');
-    await addDoc(gradesCollection, gradeData);
+    return from(addDoc(gradesCollection, gradeData));
   }
 
   getGrades(studentId: string): Observable<Grade[]> {

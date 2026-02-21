@@ -1,5 +1,5 @@
 @if (userProfile()?.role === 'teacher') {
-  <form [formGroup]="newGradeForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="newGradeForm" (ngSubmit)="onSubmit(formDir)" #formDir="ngForm">
     <h3>Nowa ocena</h3>
     <mat-form-field>
       <mat-label>Uczeń</mat-label>
